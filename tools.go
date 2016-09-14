@@ -1,3 +1,4 @@
+// Package randtool is for generating common types of pseudo random data.
 package randtool
 
 import (
@@ -21,7 +22,7 @@ const (
 )
 
 var seeded bool = false
-var mutex sync.Mutex
+var mutex  sync.Mutex
 
 // pseudo-random int64 values in the range [0, 1<<63).
 func int63() int64 {
@@ -33,25 +34,35 @@ func int63() int64 {
 
 // Generate func for creating a pseudo random int64 using crypto/rand
 // This function is designed especially for the seeding rand.Seed()
-func GenerateSeed() int64 {
-	var s int64
-	err := binary.Read(rand.Reader, binary.LittleEndian, &s)
+func GenInt64() int64 {
+	var i int64
+	// On Unix-like systems, Reader reads from /dev/urandom.
+	// On Linux, Reader uses getrandom(2) if available, /dev/urandom otherwise.
+	// On Windows systems, Reader uses the CryptGenRandom API.
+	err := binary.Read(rand.Reader, binary.LittleEndian, &i)
 	if err != nil {
 		panic(fmt.Sprintf("Can not read crypto/rand lib: %s", err.Error()))
 	}
-	seeded = true // Set math.Seed status
-	return s
+	return i
+}
+
+// Seed math/rand using a pseudo random int64 value
+func SeedMathRand() {
+	mathrand.Seed(GenInt64())
+	// Set math.Seed status
+	seeded = true
 }
 
 // Generate a url safe pseudo random alphabetic string of N length
 // Credits goes to (icza) http://stackoverflow.com/a/31832326/5315198
-func GenerateString(n int) (string, error) {
+func GenStr(n int) (string, error) {
 	if n < 1 {
 		return "", errors.New("Random string length must be greater than 0")
 	}
-	// Seed math if not already done
+	// Don't seed on every iteration to increase performance
+	// and reduce chance for reseeding with same int64
 	if !seeded {
-		mathrand.Seed(GenerateSeed())
+		SeedMathRand()
 	}
 
 	b := make([]byte, n)
@@ -73,7 +84,7 @@ func GenerateString(n int) (string, error) {
 
 // Returns the value of GenerateAlpha with the error ignored
 // Use with caution
-func GenerateStringIgnErr(n int) string {
-	s, _ := GenerateString(n)
+func GenStrIgnoreErr(n int) string {
+	s, _ := GenStr(n)
 	return s
 }
