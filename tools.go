@@ -24,7 +24,7 @@ const (
 var seeded bool = false
 var mutex  sync.Mutex
 
-// pseudo-random int64 values in the range [0, 1<<63).
+// Pseudo-random int64 values in the range [0, 1<<63).
 func int63() int64 {
 	mutex.Lock()
 	v := mathrand.Int63()
