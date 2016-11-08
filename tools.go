@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	// The available alphabet for GenerateAlphaString()
+	// Available chars for GenerateAlphaString()
 	chars   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	// 6 bits to represent a letter index
 	letterIdxBits = 6
@@ -32,7 +32,14 @@ func int63() int64 {
 	return v
 }
 
-// Generate func for creating a pseudo random int64 using crypto/rand
+// Seed math/rand using a pseudo random int64 value
+func SeedMathRand() {
+	mathrand.Seed(GenInt64())
+	// Set math.Seed status
+	seeded = true
+}
+
+// Creates a pseudo random int64 using crypto/rand
 // This function is designed especially for the seeding rand.Seed()
 func GenInt64() int64 {
 	var i int64
@@ -46,11 +53,37 @@ func GenInt64() int64 {
 	return i
 }
 
-// Seed math/rand using a pseudo random int64 value
-func SeedMathRand() {
-	mathrand.Seed(GenInt64())
-	// Set math.Seed status
-	seeded = true
+// Creates a pseudo random int32 using crypto/rand
+func GenInt32() int32 {
+	var i int32
+	// See GenInt64()
+	err := binary.Read(rand.Reader, binary.LittleEndian, &i)
+	if err != nil {
+		panic(fmt.Sprintf("Can not read crypto/rand lib: %s", err.Error()))
+	}
+	return i
+}
+
+// Creates a pseudo random int16 using crypto/rand
+func GenInt16() int16 {
+	var i int16
+	// See GenInt64()
+	err := binary.Read(rand.Reader, binary.LittleEndian, &i)
+	if err != nil {
+		panic(fmt.Sprintf("Can not read crypto/rand lib: %s", err.Error()))
+	}
+	return i
+}
+
+// Creates a pseudo random int8 using crypto/rand
+func GenInt8() int8 {
+	var i int8
+	// See GenInt64()
+	err := binary.Read(rand.Reader, binary.LittleEndian, &i)
+	if err != nil {
+		panic(fmt.Sprintf("Can not read crypto/rand lib: %s", err.Error()))
+	}
+	return i
 }
 
 // Generate a url safe pseudo random alphabetic string of N length
@@ -60,7 +93,7 @@ func GenStr(n int) (string, error) {
 		return "", errors.New("Random string length must be greater than 0")
 	}
 	// Don't seed on every iteration to increase performance
-	// and reduce chance for reseeding with same int64
+	// and reduce chance for reseeding with same seed
 	if !seeded {
 		SeedMathRand()
 	}

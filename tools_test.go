@@ -4,14 +4,77 @@ import (
 	"testing"
 )
 
-func TestGenInt64(t *testing.T) {
-	// Execute to check for panic
-	GenInt64()
-}
-
 func TestSeedMathRand(t *testing.T) {
 	// Execute to check for panic
 	SeedMathRand()
+}
+
+func TestGenInt8(t *testing.T) {
+	// Check for correct generation and "basic entropy"
+	r := make(map[int8]bool)
+	a := GenInt8()
+	b := GenInt8()
+	c := GenInt8()
+	d := GenInt8()
+	r[a] = true
+	r[b] = true
+	r[c] = true
+	r[d] = true
+	// If the output is unique we expect 4 slices
+	if len(r) != 4 {
+		t.Errorf("Key coalition expected 4 unique keys got %d", len(r))
+	}
+}
+
+func TestGenInt16(t *testing.T) {
+	// Check for correct generation and "basic entropy"
+	r := make(map[int16]bool)
+	a := GenInt16()
+	b := GenInt16()
+	c := GenInt16()
+	d := GenInt16()
+	r[a] = true
+	r[b] = true
+	r[c] = true
+	r[d] = true
+	// If the output is unique we expect 4 slices
+	if len(r) != 4 {
+		t.Errorf("Key coalition expected 4 unique keys got %d", len(r))
+	}
+}
+
+func TestGenInt32(t *testing.T) {
+	// Check for correct generation and "basic entropy"
+	r := make(map[int32]bool)
+	a := GenInt32()
+	b := GenInt32()
+	c := GenInt32()
+	d := GenInt32()
+	r[a] = true
+	r[b] = true
+	r[c] = true
+	r[d] = true
+	// If the output is unique we expect 4 slices
+	if len(r) != 4 {
+		t.Errorf("Key coalition expected 4 unique keys got %d", len(r))
+	}
+}
+
+func TestGenInt64(t *testing.T) {
+	// Check for correct generation and "basic entropy"
+	r := make(map[int64]bool)
+	a := GenInt64()
+	b := GenInt64()
+	c := GenInt64()
+	d := GenInt64()
+	r[a] = true
+	r[b] = true
+	r[c] = true
+	r[d] = true
+	// If the output is unique we expect 4 slices
+	if len(r) != 4 {
+		t.Errorf("Key coalition expected 4 unique keys got %d", len(r))
+	}
 }
 
 func TestGenStr(t *testing.T) {
