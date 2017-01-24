@@ -16,13 +16,15 @@ const (
 	// 6 bits to represent a letter index
 	letterIdxBits = 6
 	// All 1-bits, as many as letterIdxBits
-	letterIdxMask = 1<<letterIdxBits - 1
+	letterIdxMask = 1 << letterIdxBits - 1
 	// # of letter indices fitting in 63 bits
 	letterIdxMax  = 63 / letterIdxBits
 )
 
-var seeded bool = false
-var mutex  sync.Mutex
+var (
+	mutex  sync.Mutex
+	once   sync.Once
+)
 
 // Pseudo-random int64 values in the range [0, 1<<63).
 func int63() int64 {
@@ -33,10 +35,11 @@ func int63() int64 {
 }
 
 // Seed math/rand using a pseudo random int64 value
-func SeedMathRand() {
-	mathrand.Seed(GenInt64())
-	// Set math.Seed status
-	seeded = true
+func seedMathRand() {
+	// Only seed once to reduce chance for collisions.
+	once.Do(func() {
+		mathrand.Seed(GenInt64())
+	})
 }
 
 // Creates a pseudo random int64 using crypto/rand
@@ -92,11 +95,9 @@ func GenStr(n int) (string, error) {
 	if n < 1 {
 		return "", errors.New("Random string length must be greater than 0")
 	}
-	// Don't seed on every iteration to increase performance
-	// and reduce chance for reseeding with same seed
-	if !seeded {
-		SeedMathRand()
-	}
+
+	// Make sure we have seeded math/rand.
+	seedMathRand()
 
 	b := make([]byte, n)
 	// math_rand.Int63() generates 63 random bits, enough for letterIdxMax characters
