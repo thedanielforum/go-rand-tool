@@ -34,11 +34,11 @@ func int63() int64 {
 	return v
 }
 
-// Seed math/rand using a pseudo random int64 value
+// seedMathRand math/rand using a pseudo random int64 value
 func seedMathRand() {
 	// Only seed once to reduce chance for collisions.
 	once.Do(func() {
-		mathrand.Seed(GenInt64())
+		mathrand.Seed(GenInt64() + time.Now().Unix())
 	})
 }
 
@@ -87,6 +87,11 @@ func GenInt8() int8 {
 		panic(fmt.Sprintf("Can not read crypto/rand lib: %s", err.Error()))
 	}
 	return i
+}
+
+// GenIntRange generates a random int within the specified range.
+func GenIntRange(min, max int) int {
+	return mathrand.Intn(max - min) + min
 }
 
 // Generate a url safe pseudo random alphabetic string of N length

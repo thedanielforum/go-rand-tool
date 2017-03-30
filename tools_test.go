@@ -4,9 +4,8 @@ import (
 	"testing"
 )
 
-func TestSeedMathRand(t *testing.T) {
-	// Execute to check for panic
-	SeedMathRand()
+func TestSeedMathRand(t *testing.T)  {
+	seedMathRand();
 }
 
 func TestGenInt8(t *testing.T) {
