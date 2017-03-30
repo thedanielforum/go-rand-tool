@@ -20,7 +20,7 @@ str := randtool.GenStrIgnoreErr(16)
 Generate random number within specified range
 ```go
 // Good for mobile verification challenges
-i := rangtool.GenIntRange(1000, 9999)
+i := randtool.GenIntRange(1000, 9999)
 ```
 
 

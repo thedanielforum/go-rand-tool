@@ -27,6 +27,11 @@ var (
 	once   sync.Once
 )
 
+// Seed math on package init
+func init() {
+	seedMathRand();
+}
+
 // Pseudo-random int64 values in the range [0, 1<<63).
 func int63() int64 {
 	mutex.Lock()
