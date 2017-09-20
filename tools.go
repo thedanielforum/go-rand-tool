@@ -44,7 +44,7 @@ func int63() int64 {
 func seedMathRand() {
 	// Only seed once to reduce chance for collisions.
 	once.Do(func() {
-		mathrand.Seed(GenInt64() + time.Now().Unix())
+		mathrand.Seed(GenInt64() + time.Now().UnixNano())
 	})
 }
 
