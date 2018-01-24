@@ -13,23 +13,23 @@ import (
 
 const (
 	// Available chars for GenerateAlphaString()
-	chars   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	// 6 bits to represent a letter index
 	letterIdxBits = 6
 	// All 1-bits, as many as letterIdxBits
-	letterIdxMask = 1 << letterIdxBits - 1
+	letterIdxMask = 1<<letterIdxBits - 1
 	// # of letter indices fitting in 63 bits
-	letterIdxMax  = 63 / letterIdxBits
+	letterIdxMax = 63 / letterIdxBits
 )
 
 var (
-	mutex  sync.Mutex
-	once   sync.Once
+	mutex sync.Mutex
+	once  sync.Once
 )
 
 // Seed math on package init
 func init() {
-	seedMathRand();
+	seedMathRand()
 }
 
 // Pseudo-random int64 values in the range [0, 1<<63).
@@ -48,7 +48,7 @@ func seedMathRand() {
 	})
 }
 
-// Creates a pseudo random int64 using crypto/rand
+// GenInt64 creates a pseudo random int64 using crypto/rand
 // This function is designed especially for the seeding rand.Seed()
 func GenInt64() int64 {
 	var i int64
@@ -62,7 +62,7 @@ func GenInt64() int64 {
 	return i
 }
 
-// Creates a pseudo random int32 using crypto/rand
+// GenInt32 creates a pseudo random int32 using crypto/rand
 func GenInt32() int32 {
 	var i int32
 	// See GenInt64()
@@ -73,7 +73,7 @@ func GenInt32() int32 {
 	return i
 }
 
-// Creates a pseudo random int16 using crypto/rand
+// GenInt16 creates a pseudo random int16 using crypto/rand
 func GenInt16() int16 {
 	var i int16
 	// See GenInt64()
@@ -84,7 +84,7 @@ func GenInt16() int16 {
 	return i
 }
 
-// Creates a pseudo random int8 using crypto/rand
+// GenInt8 creates a pseudo random int8 using crypto/rand
 func GenInt8() int8 {
 	var i int8
 	// See GenInt64()
@@ -97,10 +97,10 @@ func GenInt8() int8 {
 
 // GenIntRange generates a random int within the specified range.
 func GenIntRange(min, max int) int {
-	return mathrand.Intn(max - min) + min
+	return mathrand.Intn(max-min) + min
 }
 
-// Generate a url safe pseudo random alphabetic string of N length
+// GenStr generate a url safe pseudo random alphabetic string of N length
 // Credits goes to (icza) http://stackoverflow.com/a/31832326/5315198
 func GenStr(n int) (string, error) {
 	if n < 1 {
@@ -127,7 +127,7 @@ func GenStr(n int) (string, error) {
 	return string(b), nil
 }
 
-// Returns the value of GenerateAlpha with the error ignored
+// GenStrIgnoreErr returns the value of GenerateAlpha with the error ignored
 // Use with caution
 func GenStrIgnoreErr(n int) string {
 	s, _ := GenStr(n)

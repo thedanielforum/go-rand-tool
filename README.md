@@ -1,4 +1,4 @@
-![godoc](https://travis-ci.org/thedanielforum/randtool.svg?branch=master)
+![godoc](https://travis-ci.org/thedanielforum/randtool.svg?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/676a9e1aabe14027ae63a941312c399d)](https://www.codacy.com/app/thedanielforum/randtool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=thedanielforum/randtool&amp;utm_campaign=Badge_Grade)
 
 GO package with some easy tools for generating common types of pseudo
 random data.
@@ -15,6 +15,14 @@ Generate a random string of n length.
 str, err := randtool.GenStr(16)
 // Generate a new string but ignore any potential errors
 str := randtool.GenStrIgnoreErr(16)
+```
+
+Avalible integers
+```go
+GenInt64() int64
+GenInt32() int32
+GenInt16() int16
+GenInt8() int8
 ```
 
 Generate random number within specified range
